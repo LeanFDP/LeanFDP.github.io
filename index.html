@@ -309,25 +309,49 @@
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <h3>Edit your metadata</h3>
-          <p>Open <code>fdp/catalog.ttl</code> and fill in your dataset details. Use standard prefixes: <code>dcat:</code>, <code>dcterms:</code>, <code>ordo:</code>, <code>hpo:</code>. Every save triggers ShEx validation.</p>
+          <h3>Make it yours</h3>
+          <p>Set the name, colours and maintainer in <code>fdp.config.json</code>, then add your sources through <strong>Issues → Add a data source</strong> or <code>scripts/add_source.py</code>. Every pull request is validated with ShEx.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
           <h3>Enable GitHub Pages</h3>
-          <p>Go to Settings → Pages → Source: <em>main branch / docs folder</em>. Your FDP will be live at <code>https://&lt;org&gt;.github.io/&lt;repo&gt;/</code> within minutes.</p>
+          <p>Go to Settings → Pages → Source: <em>GitHub Actions</em>. Your FDP will be live at <code>https://&lt;org&gt;.github.io/&lt;repo&gt;/</code> within minutes.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <h3>Register in the FDP Index</h3>
-          <p>Open a pull request adding your URL to <a href="https://github.com/LeanFDP/fdp-index/blob/main/registry.yaml">registry.yaml</a>. Once merged, the daily crawl picks you up automatically — or ping the index immediately with a <code>repository_dispatch</code> event.</p>
+          <h3>Register in both indexes</h3>
+          <p>Use the <a href="https://fdp.semscape.org/fdp-index/register.html">FDP Index registration form</a>; once a maintainer merges it, the daily crawl picks you up. Then register the same FDP in Mark Wilkinson's <a href="https://erdera-vp-index.linkeddata.systems/">Lean FDP Index</a>, used by ERDERA. <a href="#indexes">How the two differ</a>.</p>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── Two indexes ── -->
+<section id="indexes">
+  <div class="inner">
+    <h2>Two indexes, one FDP</h2>
+    <p class="sub">An index records which FAIR Data Points exist and rechecks them every day. A Lean FDP needs nothing extra for either; register it in both.</p>
+    <table>
+      <thead>
+        <tr><th></th><th><a href="https://fdp.semscape.org/fdp-index/" target="_blank">FDP Index</a> (Lean FDP)</th><th><a href="https://erdera-vp-index.linkeddata.systems/" target="_blank">Lean FDP Index</a> (Mark Wilkinson, for ERDERA)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Code</td><td><a href="https://github.com/LeanFDP/fdp-index" target="_blank">LeanFDP/fdp-index</a></td><td><a href="https://github.com/markwilkinson/lean-fdp-index" target="_blank">markwilkinson/lean-fdp-index</a> (private repository)</td></tr>
+        <tr><td>Runs on</td><td>GitHub Actions and Pages, no server</td><td>A server with Virtuoso</td></tr>
+        <tr><td>Register</td><td><a href="https://fdp.semscape.org/fdp-index/register.html" target="_blank">Form</a> or pull request on <code>registry.yaml</code>; a maintainer reviews it</td><td>Form on the page, or <code>POST /</code> with <code>{"clientUrl": …}</code>; accepted at once</td></tr>
+        <tr><td>What an entry is</td><td>One FDP root, with a snapshot of its metadata</td><td>Every resource found by following links: catalogs, datasets, distributions, data services</td></tr>
+        <tr><td>Query</td><td>Static <code>index.ttl</code>; <a href="https://fdp.semscape.org/fdp-index/sparql.html" target="_blank">SPARQL in your browser</a></td><td>Public <code>/sparql</code> endpoint and <code>GET /entries</code></td></tr>
+        <tr><td>When an FDP goes down</td><td>An outage issue notifies its watchers, then a removal pull request is reviewed; status and Atom feed per FDP</td><td>The entry is removed after repeated failures</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem">To register a Lean FDP in the Lean FDP Index from the command line:</p>
+    <pre style="overflow-x:auto; max-width:100%; background:var(--gray-1); padding:.8rem; border-radius:6px; font-size:.8rem"><code>curl -X POST https://erdera-vp-index.linkeddata.systems/ -H "Content-Type: application/json" \
+     -d '{"clientUrl": "https://&lt;org&gt;.github.io/&lt;repo&gt;/fdp/index/catalog.ttl"}'</code></pre>
   </div>
 </section>
 
@@ -357,6 +381,7 @@
     <strong>Lean FDP</strong> · <a href="https://github.com/LeanFDP" target="_blank">FAIR Data Points on GitHub</a> ·
     <a href="https://github.com/LeanFDP" target="_blank">GitHub organisation</a> ·
     <a href="https://fdp.semscape.org/fdp-index/" target="_blank">FDP Index</a> ·
+    <a href="https://erdera-vp-index.linkeddata.systems/" target="_blank">Lean FDP Index (ERDERA)</a> ·
     <a href="/ecosystems/">FDP ecosystems</a> ·
     <a href="https://specs.fairdatapoint.org" target="_blank">FDP Specification</a>
   </p>
